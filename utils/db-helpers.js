@@ -1,6 +1,4 @@
-let exports = {};
-
-exports.getDbItem = async (tableName, db, { partitionKey, value }) => {
+const getDbItem = async (tableName, db, { partitionKey, value }) => {
     try {
         let keyObj = {};
         keyObj[partitionKey] = value;
@@ -41,4 +39,4 @@ exports.getDbItem = async (tableName, db, { partitionKey, value }) => {
     }
 };
 
-module.exports = exports;
+module.exports = { getDbItem };
