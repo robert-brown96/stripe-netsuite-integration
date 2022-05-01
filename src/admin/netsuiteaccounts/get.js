@@ -19,11 +19,16 @@ module.exports.handler = async event => {
             .get(getParams)
             .promise()
             .then(res => {
-                return {
-                    statusCode: 200,
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(res.Item)
-                };
+                return res.Item
+                    ? {
+                          statusCode: 200,
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify(res.Item)
+                      }
+                    : {
+                          statusCode: 401,
+                          body: { error: "NO RESULTS FOUND" }
+                      };
             })
             .catch(e => {
                 console.log(`error ${JSON.stringify(e)}`);
