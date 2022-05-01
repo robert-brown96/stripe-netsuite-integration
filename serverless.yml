@@ -1,0 +1,20 @@
+service: stripe-netsuite-integration
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+
+functions:
+  createNetSuiteAccount:
+    handler: src/admin/netsuiteaccounts/create.handler
+    description: Create a new Netsuite Account Authorization
+    events:
+      - http:
+          path: admin
+          method: post
+          cors: true
+      
