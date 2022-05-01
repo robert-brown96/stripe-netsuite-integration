@@ -57,7 +57,7 @@ module.exports.handler = async event => {
                     statusCode: 200,
                     body: JSON.stringify({
                         success: true,
-                        realm: createParams.realm
+                        realm: createParams.Item.realm
                     })
                 };
             })
