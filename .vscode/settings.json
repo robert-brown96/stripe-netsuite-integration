@@ -1,0 +1,11 @@
+{
+    "serverlessConsole.services": [
+        {
+            "type": "dynamodb",
+            "title": "stripe-netsuite-integration-dev",
+            "tableName": "stripe-netsuite-integration-dev",
+            "awsProfile": "default",
+            "region": "us-east-1"
+        }
+    ]
+}

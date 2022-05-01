@@ -1,20 +1,37 @@
+org: robertbrown96
+app: stripe-netsuite-integration
 service: stripe-netsuite-integration
 
-frameworkVersion: "3"
+frameworkVersion: ">=2.24.0"
 
 provider:
-  name: aws
-  runtime: nodejs14.x
-  stage: ${opt:stage, 'dev'}
-  region: ${opt:region, 'us-east-1'}
+    name: aws
+    runtime: nodejs14.x
+    environment:
+        NS_ACCOUNT_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    stage: ${opt:stage, 'dev'}
+    region: ${opt:region, 'us-east-1'}
 
 functions:
-  createNetSuiteAccount:
-    handler: src/admin/netsuiteaccounts/create.handler
-    description: Create a new Netsuite Account Authorization
-    events:
-      - http:
-          path: admin
-          method: post
-          cors: true
-      
+    createNetSuiteAccount:
+        handler: src/admin/netsuiteaccounts/create.handler
+        description: Create a new Netsuite Account Authorization
+        events:
+            - http:
+                  path: admin/netsuiteaccounts
+                  method: post
+                  cors: true
+
+resources:
+    Resources:
+        NetSuiteAccountsTable:
+            Type: "AWS::DynamoDB::Table"
+            Properties:
+                AttributeDefinitions:
+                    - AttributeName: "realm"
+                      AttributeType: "S"
+                KeySchema:
+                    - AttributeName: "realm"
+                      KeyType: "HASH"
+                BillingMode: PAY_PER_REQUEST
+                TableName: ${self:provider.environment.NS_ACCOUNT_TABLE}
