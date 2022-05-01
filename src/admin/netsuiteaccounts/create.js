@@ -1,5 +1,6 @@
 const AWS = require("aws-sdk");
 
+const helpers = require("../../../utils/helpers");
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = async event => {
@@ -17,24 +18,17 @@ module.exports.handler = async event => {
             "url"
         ];
 
-        //TODO: add tests to validate returns of promise
-        // only return value if rejected
-        const checkPromise = await new Promise((resolve, reject) => {
-            requireFields.forEach(f => {
-                if (!keys.includes(f)) {
-                    reject(`MUST PROVIDE PARAMETER ${f}`);
-                }
-            });
-            resolve();
-        }).catch(e => {
+        const checkParams = await helpers.validateRequiredFields(
+            requireFields,
+            keys,
+            "createNetSuiteAccount"
+        );
+
+        if (typeof checkParams === "string")
             return {
                 statusCode: 404,
-                body: JSON.stringify({ error: e })
+                body: JSON.stringify({ error: checkParams })
             };
-        });
-
-        // return if the promise was rejected
-        if (checkPromise) return checkPromise;
 
         const createParams = {
             TableName: process.env.NS_ACCOUNT_TABLE,
