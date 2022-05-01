@@ -37,6 +37,14 @@ functions:
                   path: admin/netsuiteaccounts/{realm}
                   method: get
                   cors: true
+    listNetSuiteAccounts:
+        handler: src/admin/netsuiteaccounts/list.handler
+        description: Retrieves all Netsuite Account Authorizations
+        events:
+            - http:
+                  path: admin/netsuiteaccounts
+                  method: get
+                  cors: true
 
 resources:
     Resources:

@@ -1,3 +1,13 @@
+const { DocumentClient } = require("aws-sdk/clients/dynamodb");
+
+/**
+ *
+ *
+ * @param {String} tableName
+ * @param {DocumentClient} db
+ * @param {Object} { partitionKey, value }
+ * @return {*}
+ */
 const getDbItem = async (tableName, db, { partitionKey, value }) => {
     try {
         let keyObj = {};
@@ -39,4 +49,25 @@ const getDbItem = async (tableName, db, { partitionKey, value }) => {
     }
 };
 
-module.exports = { getDbItem };
+const scanTable = async (tableName, db) => {
+    try {
+        const listParams = {
+            TableName: tableName
+        };
+        const results = await db.scan(listParams).promise();
+
+        return {
+            statusCode: 200,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(results.Items)
+        };
+    } catch (e) {
+        console.error(`UNCAUGHT ERROR ${e}`);
+        return {
+            statusCode: 402,
+            body: JSON.stringify(e)
+        };
+    }
+};
+
+module.exports = { getDbItem, scanTable };
