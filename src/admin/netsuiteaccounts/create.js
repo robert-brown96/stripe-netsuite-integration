@@ -6,7 +6,7 @@ module.exports.handler = async event => {
     console.log(JSON.stringify(event));
 
     try {
-        const data = JSON.parse(event.body);
+        const data = event.body;
         const keys = Object.keys(data);
         const requireFields = [
             "realm",
