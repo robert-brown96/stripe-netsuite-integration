@@ -6,6 +6,13 @@
             "tableName": "stripe-netsuite-integration-dev",
             "awsProfile": "default",
             "region": "us-east-1"
+        },
+        {
+            "type": "dynamodb",
+            "title": "ns_account_table-stripe-netsuite-integration-dev",
+            "tableName": "ns_account_table-stripe-netsuite-integration-dev",
+            "awsProfile": "default",
+            "region": "us-east-1"
         }
     ]
 }
