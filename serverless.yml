@@ -8,9 +8,17 @@ provider:
     name: aws
     runtime: nodejs14.x
     environment:
-        NS_ACCOUNT_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+        NS_ACCOUNT_TABLE: ns_account_table-${self:service}-${opt:stage, self:provider.stage}
     stage: ${opt:stage, 'dev'}
     region: ${opt:region, 'us-east-1'}
+    iamRoleStatements:
+        - Effect: "Allow"
+          Action:
+              - dynamodb:Query
+              - dynamodb:Scan
+              - dynamodb:GetItem
+              - dynamodb:PutItem
+          Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/ns_account_table-*"
 
 functions:
     createNetSuiteAccount:

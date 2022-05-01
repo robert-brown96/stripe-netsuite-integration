@@ -1,12 +1,13 @@
 const AWS = require("aws-sdk");
 
-const dynamoDb = AWS.DynamoDB.DocumentClient();
+const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = async event => {
     console.log(JSON.stringify(event));
-    const data = JSON.parse(event.body);
-    const keys = Object.keys(data);
+
     try {
+        const data = JSON.parse(event.body);
+        const keys = Object.keys(data);
         const requireFields = [
             "realm",
             "consumerKey",
