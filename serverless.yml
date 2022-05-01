@@ -29,6 +29,14 @@ functions:
                   path: admin/netsuiteaccounts
                   method: post
                   cors: true
+    getNetSuiteAccount:
+        handler: src/admin/netsuiteaccounts/get.handler
+        description: Retrieves a single Netsuite Account Authorization
+        events:
+            - http:
+                  path: admin/netsuiteaccounts
+                  method: get
+                  cors: true
 
 resources:
     Resources:
