@@ -34,7 +34,7 @@ functions:
         description: Retrieves a single Netsuite Account Authorization
         events:
             - http:
-                  path: admin/netsuiteaccounts
+                  path: admin/netsuiteaccounts/{realm}
                   method: get
                   cors: true
 
