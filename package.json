@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "Serverless framework Stripe Netsuite Integration",
   "main": "index.js",
-  "scripts": {
-    "test": "jest"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/robert-brown96/stripe-netsuite-integration.git"
