@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Serverless framework Stripe Netsuite Integration",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "jest"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/robert-brown96/stripe-netsuite-integration.git"
@@ -15,6 +17,7 @@
   },
   "homepage": "https://github.com/robert-brown96/stripe-netsuite-integration#readme",
   "dependencies": {
+    "@serverless/event-mocks": "^1.1.1",
     "aws-sdk": "^2.1125.0",
     "prettier": "^2.6.2",
     "stripe": "^8.219.0"
