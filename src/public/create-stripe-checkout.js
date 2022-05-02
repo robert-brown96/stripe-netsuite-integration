@@ -1,6 +1,6 @@
 const AWS = require("aws-sdk");
 
-const dbHelpers = require("../../../utils/db-helpers");
+const dbHelpers = require("../../utils/db-helpers");
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = async event => {
