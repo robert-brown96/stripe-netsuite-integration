@@ -97,7 +97,8 @@ const updateDbItem = async (tableName, db, keyValue, data) => {
         console.log(`sets ${JSON.stringify(setVals)}`);
         let attributeValues = {};
         setVals.forEach(element => {
-            attributeValues[`:${element}`] = data[element];
+            let [e, c] = element.split(" = ");
+            attributeValues[c] = data[e];
         });
         console.log(`attribute vals ${JSON.stringify(attributeValues)}`);
 
