@@ -1,6 +1,7 @@
 const AWS = require("aws-sdk");
 
 const dbHelpers = require("../../utils/db-helpers");
+const stripeFunctions = require("../../utils/stripe-functions/create-checkout");
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = async event => {
@@ -19,6 +20,16 @@ module.exports.handler = async event => {
 
         // extract netsuite account realm and the secret key
         const { secretKey, realm } = stripeAccount.body;
+
+        const checkoutRes = await stripeFunctions.createCheckout({
+            secretKey: secretKey,
+            itemDetails: {}
+        });
+        console.log(checkoutRes);
+        return {
+            statusCode: 200,
+            body: JSON.stringify(checkoutRes)
+        };
     } catch (e) {
         console.error(`UNCAUGHT ERROR ${e}`);
         return {

@@ -1,6 +1,6 @@
 const stripe = require("stripe");
 
-module.exports = createCheckout = async options => {
+const createCheckout = async options => {
     try {
         const { secretKey, itemDetails } = options;
 
@@ -30,3 +30,5 @@ module.exports = createCheckout = async options => {
         throw e;
     }
 };
+
+module.exports = { createCheckout };

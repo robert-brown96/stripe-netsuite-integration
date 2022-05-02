@@ -167,7 +167,7 @@ functions:
         events:
             - http:
                   path: /checkout
-                  method: post
+                  method: get
                   cors: true
                   request:
                       parameters:
