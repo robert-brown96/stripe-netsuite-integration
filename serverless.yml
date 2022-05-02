@@ -17,6 +17,7 @@ provider:
     lambdaHashingVersion: 20201221
     environment:
         NS_ACCOUNT_TABLE: ns_account_table-${self:service}-${opt:stage, self:provider.stage}
+        STRIPE_ACCOUNT_TABLE: stripe_account_table-${self:service}-${opt:stage, self:provider.stage}
     stage: ${opt:stage, 'dev'}
     region: ${opt:region, 'us-east-1'}
     iamRoleStatements:
@@ -29,6 +30,15 @@ provider:
               - dynamodb:UpdateItem
               - dynamodb:DeleteItem
           Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/ns_account_table-*"
+        - Effect: "Allow"
+          Action:
+              - dynamodb:Query
+              - dynamodb:Scan
+              - dynamodb:GetItem
+              - dynamodb:PutItem
+              - dynamodb:UpdateItem
+              - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/stripe_account_table-*"
 
 outputs:
     my-key: adminApiKey
@@ -93,6 +103,64 @@ functions:
                       parameters:
                           paths:
                               realm: true
+    # Stripe authorization CRUD Functions
+    createStripeAccount:
+        handler: src/admin/stripeaccounts/create.handler
+        description: Create a new Stripe Account Authorization
+        events:
+            - http:
+                  path: admin/stripeaccounts
+                  method: post
+                  cors: true
+                  private: true
+    getStripeAccount:
+        handler: src/admin/stripeaccounts/get.handler
+        description: Retrieves a single Stripe Account Authorization
+        events:
+            - http:
+                  path: admin/stripeaccounts/{publishableKey}
+                  method: get
+                  cors: true
+                  private: true
+                  request:
+                      parameters:
+                          paths:
+                              publishableKey: true
+    listStripeAccounts:
+        handler: src/admin/stripeaccounts/list.handler
+        description: Retrieves all Stripe Account Authorizations
+        events:
+            - http:
+                  path: admin/stripeaccounts
+                  method: get
+                  cors: true
+                  private: true
+    updateStripeAccount:
+        handler: src/admin/stripeaccounts/update.handler
+        description: Update a Stripe Account Authorization
+        events:
+            - http:
+                  path: admin/stripeaccounts/{publishableKey}
+                  method: put
+                  cors: true
+                  private: true
+                  request:
+                      parameters:
+                          paths:
+                              publishableKey: true
+    delStripeAccount:
+        handler: src/admin/stripeaccounts/del.handler
+        description: Delete a Stripe Account Authorization
+        events:
+            - http:
+                  path: admin/stripeaccounts/{publishableKey}
+                  method: delete
+                  cors: true
+                  private: true
+                  request:
+                      parameters:
+                          paths:
+                              publishableKey: true
 
 resources:
     Resources:
@@ -107,3 +175,14 @@ resources:
                       KeyType: "HASH"
                 BillingMode: PAY_PER_REQUEST
                 TableName: ${self:provider.environment.NS_ACCOUNT_TABLE}
+        StripeAccountsTable:
+            Type: "AWS::DynamoDB::Table"
+            Properties:
+                AttributeDefinitions:
+                    - AttributeName: "publishableKey"
+                      AttributeType: "S"
+                KeySchema:
+                    - AttributeName: "publishableKey"
+                      KeyType: "HASH"
+                BillingMode: PAY_PER_REQUEST
+                TableName: ${self:provider.environment.STRIPE_ACCOUNT_TABLE}
