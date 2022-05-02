@@ -161,6 +161,18 @@ functions:
                       parameters:
                           paths:
                               publishableKey: true
+    createStripeCheckout:
+        handler: src/public/create-stripe-checkout.handler
+        description: Create a Stripe checkout link
+        events:
+            - http:
+                  path: /checkout
+                  method: post
+                  cors: true
+                  request:
+                      parameters:
+                          querystrings:
+                              publishableKey: true
 
 resources:
     Resources:
