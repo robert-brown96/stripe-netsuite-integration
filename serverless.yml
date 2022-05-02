@@ -20,6 +20,7 @@ provider:
               - dynamodb:GetItem
               - dynamodb:PutItem
               - dynamodb:UpdateItem
+              - dynamodb:Delete
           Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/ns_account_table-*"
 
 functions:
@@ -58,6 +59,18 @@ functions:
             - http:
                   path: admin/netsuiteaccounts/{realm}
                   method: put
+                  cors: true
+                  request:
+                      parameters:
+                          paths:
+                              realm: true
+    delNetSuiteAccount:
+        handler: src/admin/netsuiteaccounts/del.handler
+        description: Delete a Netsuite Account Authorization
+        events:
+            - http:
+                  path: admin/netsuiteaccounts/{realm}
+                  method: delete
                   cors: true
                   request:
                       parameters:
