@@ -45,6 +45,14 @@ functions:
                   path: admin/netsuiteaccounts
                   method: get
                   cors: true
+    delNetSuiteAccount:
+        handler: src/admin/netsuiteaccounts/update.handler
+        description: Update a Netsuite Account Authorization
+        events:
+            - http:
+                  path: admin/netsuiteaccounts/{realm}
+                  method: put
+                  cors: true
 
 resources:
     Resources:
