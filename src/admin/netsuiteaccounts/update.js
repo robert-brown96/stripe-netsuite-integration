@@ -10,7 +10,7 @@ module.exports.handler = async event => {
         return await dbHelpers.updateDbItem(
             process.env.NS_ACCOUNT_TABLE,
             dynamoDb,
-            { partitionKey: "realm", value: event.pathParameters.realm },
+            { realm: event.pathParameters.realm },
             event.body
         );
     } catch (e) {

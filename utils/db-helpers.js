@@ -136,37 +136,4 @@ const updateDbItem = async (tableName, db, keyValue, data) => {
     }
 };
 
-const delDbItem = async (tableName, db, keyObj) => {
-    try {
-        const delParams = {
-            TableName: tableName,
-            // GET rows where parameters match
-            Key: keyObj
-        };
-        return await db
-            .delete(delParams)
-            .promise()
-            .then(res => {
-                return {
-                    statusCode: 200,
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(res)
-                };
-            })
-            .catch(e => {
-                return {
-                    statusCode: 404,
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(e)
-                };
-            });
-    } catch (e) {
-        console.error(`UNCAUGHT ERROR ${e}`);
-        return {
-            statusCode: 402,
-            body: JSON.stringify(e)
-        };
-    }
-};
-
-module.exports = { getDbItem, scanTable, updateDbItem, delDbItem };
+module.exports = { getDbItem, scanTable, updateDbItem };
