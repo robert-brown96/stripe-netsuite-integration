@@ -3,7 +3,7 @@ const stripe = require("stripe")();
 const createCheckout = async options => {
     try {
         const { secretKey, itemDetails } = options;
-
+        console.log(`secret: ${secretKey}`);
         const stripeCheckoutObj = await stripe.checkout.sessions.create(
             {
                 success_url: "https://google.com",
