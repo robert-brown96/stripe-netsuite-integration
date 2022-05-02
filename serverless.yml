@@ -4,9 +4,17 @@ service: stripe-netsuite-integration
 
 frameworkVersion: ">=2.24.0"
 
+plugins:
+    - serverless-add-api-key
+
+custom:
+    apiKeys:
+        - name: adminApiKey
+
 provider:
     name: aws
     runtime: nodejs14.x
+    lambdaHashingVersion: 20201221
     environment:
         NS_ACCOUNT_TABLE: ns_account_table-${self:service}-${opt:stage, self:provider.stage}
     stage: ${opt:stage, 'dev'}
@@ -18,9 +26,16 @@ provider:
               - dynamodb:Scan
               - dynamodb:GetItem
               - dynamodb:PutItem
+              - dynamodb:UpdateItem
+              - dynamodb:DeleteItem
           Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/ns_account_table-*"
 
+outputs:
+    my-key: adminApiKey
+
+# Define Lambda Functions
 functions:
+    # Netsuite authorization CRUD Functions
     createNetSuiteAccount:
         handler: src/admin/netsuiteaccounts/create.handler
         description: Create a new Netsuite Account Authorization
@@ -29,6 +44,7 @@ functions:
                   path: admin/netsuiteaccounts
                   method: post
                   cors: true
+                  private: true
     getNetSuiteAccount:
         handler: src/admin/netsuiteaccounts/get.handler
         description: Retrieves a single Netsuite Account Authorization
@@ -37,6 +53,46 @@ functions:
                   path: admin/netsuiteaccounts/{realm}
                   method: get
                   cors: true
+                  private: true
+                  request:
+                      parameters:
+                          paths:
+                              realm: true
+    listNetSuiteAccounts:
+        handler: src/admin/netsuiteaccounts/list.handler
+        description: Retrieves all Netsuite Account Authorizations
+        events:
+            - http:
+                  path: admin/netsuiteaccounts
+                  method: get
+                  cors: true
+                  private: true
+    updateNetSuiteAccount:
+        handler: src/admin/netsuiteaccounts/update.handler
+        description: Update a Netsuite Account Authorization
+        events:
+            - http:
+                  path: admin/netsuiteaccounts/{realm}
+                  method: put
+                  cors: true
+                  private: true
+                  request:
+                      parameters:
+                          paths:
+                              realm: true
+    delNetSuiteAccount:
+        handler: src/admin/netsuiteaccounts/del.handler
+        description: Delete a Netsuite Account Authorization
+        events:
+            - http:
+                  path: admin/netsuiteaccounts/{realm}
+                  method: delete
+                  cors: true
+                  private: true
+                  request:
+                      parameters:
+                          paths:
+                              realm: true
 
 resources:
     Resources:
