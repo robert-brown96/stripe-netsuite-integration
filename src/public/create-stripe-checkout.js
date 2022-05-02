@@ -27,8 +27,10 @@ module.exports.handler = async event => {
         });
         console.log(checkoutRes);
         return {
-            statusCode: 200,
-            body: JSON.stringify(checkoutRes)
+            statusCode: 302,
+            headers: {
+                Location: checkoutRes.url
+            }
         };
     } catch (e) {
         console.error(`UNCAUGHT ERROR ${e}`);
