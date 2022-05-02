@@ -30,7 +30,12 @@ provider:
               - dynamodb:DeleteItem
           Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/ns_account_table-*"
 
+output:
+    my-key: adminApiKey
+
+# Define Lambda Functions
 functions:
+    # Netsuite authorization CRUD Functions
     createNetSuiteAccount:
         handler: src/admin/netsuiteaccounts/create.handler
         description: Create a new Netsuite Account Authorization
