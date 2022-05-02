@@ -30,7 +30,7 @@ provider:
               - dynamodb:DeleteItem
           Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/ns_account_table-*"
 
-output:
+Outputs:
     my-key: adminApiKey
 
 # Define Lambda Functions
