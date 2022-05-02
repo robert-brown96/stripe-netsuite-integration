@@ -19,7 +19,7 @@ module.exports.handler = async event => {
         console.log(stripeAccount);
 
         // extract netsuite account realm and the secret key
-        const { secretKey, realm } = stripeAccount.body;
+        const { secretKey, realm } = JSON.parse(stripeAccount.body);
 
         const checkoutRes = await stripeFunctions.createCheckout({
             secretKey: secretKey,
