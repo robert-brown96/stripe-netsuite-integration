@@ -8,8 +8,8 @@ plugins:
     - serverless-add-api-key
 
 custom:
-  apiKeys:
-    - name: nsApiKey
+    apiKeys:
+        - name: nsApiKey
 
 provider:
     name: aws
@@ -19,11 +19,6 @@ provider:
         NS_ACCOUNT_TABLE: ns_account_table-${self:service}-${opt:stage, self:provider.stage}
     stage: ${opt:stage, 'dev'}
     region: ${opt:region, 'us-east-1'}
-    apiGateway:
-        apiKeys:
-            - ${env:MY_API_KEY}
-            - name: myKey
-              value: myKeyValue
     iamRoleStatements:
         - Effect: "Allow"
           Action:
