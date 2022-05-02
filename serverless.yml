@@ -9,7 +9,7 @@ plugins:
 
 custom:
     apiKeys:
-        - name: nsApiKey
+        - name: adminApiKey
 
 provider:
     name: aws
