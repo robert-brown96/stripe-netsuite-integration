@@ -4,6 +4,13 @@ service: stripe-netsuite-integration
 
 frameworkVersion: ">=2.24.0"
 
+plugins:
+    - serverless-add-api-key
+
+custom:
+  apiKeys:
+    - name: nsApiKey
+
 provider:
     name: aws
     runtime: nodejs14.x
@@ -12,6 +19,11 @@ provider:
         NS_ACCOUNT_TABLE: ns_account_table-${self:service}-${opt:stage, self:provider.stage}
     stage: ${opt:stage, 'dev'}
     region: ${opt:region, 'us-east-1'}
+    apiGateway:
+        apiKeys:
+            - ${env:MY_API_KEY}
+            - name: myKey
+              value: myKeyValue
     iamRoleStatements:
         - Effect: "Allow"
           Action:
@@ -32,6 +44,7 @@ functions:
                   path: admin/netsuiteaccounts
                   method: post
                   cors: true
+                  private: true
     getNetSuiteAccount:
         handler: src/admin/netsuiteaccounts/get.handler
         description: Retrieves a single Netsuite Account Authorization
@@ -40,6 +53,7 @@ functions:
                   path: admin/netsuiteaccounts/{realm}
                   method: get
                   cors: true
+                  private: true
                   request:
                       parameters:
                           paths:
@@ -52,6 +66,7 @@ functions:
                   path: admin/netsuiteaccounts
                   method: get
                   cors: true
+                  private: true
     updateNetSuiteAccount:
         handler: src/admin/netsuiteaccounts/update.handler
         description: Update a Netsuite Account Authorization
@@ -60,6 +75,7 @@ functions:
                   path: admin/netsuiteaccounts/{realm}
                   method: put
                   cors: true
+                  private: true
                   request:
                       parameters:
                           paths:
@@ -72,6 +88,7 @@ functions:
                   path: admin/netsuiteaccounts/{realm}
                   method: delete
                   cors: true
+                  private: true
                   request:
                       parameters:
                           paths:
