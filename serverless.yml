@@ -7,10 +7,17 @@ frameworkVersion: ">=2.24.0"
 plugins:
     - serverless-add-api-key
     - serverless-lift
+    - serverless-offline
+    - serverless-dynamodb-local
 
 custom:
     apiKeys:
         - name: adminApiKey
+    dynamodb:
+        - start:
+            port: 8000
+            inMemory: true
+            migrate: true #create tables on start
 
 constructs:
     EventQueue:

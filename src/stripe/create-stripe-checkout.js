@@ -2,7 +2,11 @@ const AWS = require("aws-sdk");
 
 const dbHelpers = require("../../utils/db-helpers");
 const stripeFunctions = require("../../utils/stripe-functions/create-checkout");
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const dynamoDb = new AWS.DynamoDB.DocumentClient(
+    process.env.IS_OFFLINE
+        ? { region: "localhost", endpoint: "http://localhost:8000" }
+        : {}
+);
 
 module.exports.handler = async event => {
     console.log(JSON.stringify(event));
