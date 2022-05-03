@@ -14,10 +14,12 @@ custom:
     apiKeys:
         - name: adminApiKey
     dynamodb:
+        - stages:
+              - local
         - start:
-            port: 8000
-            inMemory: true
-            migrate: true #create tables on start
+              port: 8000
+              inMemory: true
+              migrate: true #create tables on start
 
 constructs:
     EventQueue:
@@ -29,7 +31,6 @@ constructs:
 provider:
     name: aws
     runtime: nodejs14.x
-    lambdaHashingVersion: 20201221
     environment:
         NS_ACCOUNT_TABLE: ns_account_table-${self:service}-${opt:stage, self:provider.stage}
         STRIPE_ACCOUNT_TABLE: stripe_account_table-${self:service}-${opt:stage, self:provider.stage}
