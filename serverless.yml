@@ -161,6 +161,30 @@ functions:
                       parameters:
                           paths:
                               publishableKey: true
+    redirectStripeCheckout:
+        handler: src/public/create-stripe-checkout.handler
+        description: Create a Stripe checkout link and redirects return
+        events:
+            - http:
+                  path: /checkout
+                  method: get
+                  cors: true
+                  request:
+                      parameters:
+                          querystrings:
+                              publishableKey: true
+    acceptStripeWebhook:
+        handler: src/public/accept-webhook.handler
+        description: Validate webhook and send to netsuite
+        events:
+            - http:
+                  path: /stripeevents
+                  method: POST
+                  cors: true
+                  request:
+                      parameters:
+                          querystrings:
+                              publishableKey: true
 
 resources:
     Resources:
