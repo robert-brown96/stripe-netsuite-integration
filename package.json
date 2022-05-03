@@ -19,6 +19,9 @@
   "dependencies": {
     "@serverless/event-mocks": "^1.1.1",
     "aws-sdk": "^2.1125.0",
+    "crypto": "^1.0.1",
+    "fetch": "^1.1.0",
+    "oauth-1.0a": "^2.2.6",
     "prettier": "^2.6.2",
     "serverless-add-api-key": "^4.2.1",
     "stripe": "^8.219.0"

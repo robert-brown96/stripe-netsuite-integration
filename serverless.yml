@@ -173,6 +173,18 @@ functions:
                       parameters:
                           querystrings:
                               publishableKey: true
+    acceptStripeWebhook:
+        handler: src/public/accept-webhook.handler
+        description: Validate webhook and send to netsuite
+        events:
+            - http:
+                  path: /stripeevents
+                  method: POST
+                  cors: true
+                  request:
+                      parameters:
+                          querystrings:
+                              publishableKey: true
 
 resources:
     Resources:
