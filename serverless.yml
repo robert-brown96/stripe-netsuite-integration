@@ -161,9 +161,9 @@ functions:
                       parameters:
                           paths:
                               publishableKey: true
-    createStripeCheckout:
+    redirectStripeCheckout:
         handler: src/public/create-stripe-checkout.handler
-        description: Create a Stripe checkout link
+        description: Create a Stripe checkout link and redirects return
         events:
             - http:
                   path: /checkout
