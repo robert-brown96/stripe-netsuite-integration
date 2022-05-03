@@ -6,10 +6,18 @@ frameworkVersion: ">=2.24.0"
 
 plugins:
     - serverless-add-api-key
+    - serverless-lift
 
 custom:
     apiKeys:
         - name: adminApiKey
+
+constructs:
+    EventQueue:
+        type: queue
+        fifo: true
+        worker:
+            handler: src/worker.handler
 
 provider:
     name: aws
@@ -18,6 +26,7 @@ provider:
     environment:
         NS_ACCOUNT_TABLE: ns_account_table-${self:service}-${opt:stage, self:provider.stage}
         STRIPE_ACCOUNT_TABLE: stripe_account_table-${self:service}-${opt:stage, self:provider.stage}
+        EVENT_QUEUE_URL: event_queue-${construct:EventQueue.queueUrl}
     stage: ${opt:stage, 'dev'}
     region: ${opt:region, 'us-east-1'}
     iamRoleStatements:
@@ -162,7 +171,7 @@ functions:
                           paths:
                               publishableKey: true
     redirectStripeCheckout:
-        handler: src/public/create-stripe-checkout.handler
+        handler: src/stripe/create-stripe-checkout.handler
         description: Create a Stripe checkout link and redirects return
         events:
             - http:
@@ -174,7 +183,7 @@ functions:
                           querystrings:
                               publishableKey: true
     acceptStripeWebhook:
-        handler: src/public/accept-webhook.handler
+        handler: src/stripe/accept-webhook.handler
         description: Validate webhook and send to netsuite
         events:
             - http:
