@@ -16,7 +16,7 @@ module.exports = class RequestService {
      * @param tId {string}      Token ID
      * @param ts {string}       Token Secret
      * @param realm {string     Netsuite Account in the form of #####_SB1 or #####
-     * @returns
+     *
      * @constructor
      */
     constructor(options) {
