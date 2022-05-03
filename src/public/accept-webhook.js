@@ -42,6 +42,10 @@ module.exports.handler = async event => {
             };
         }
         console.log(webhookEvent);
+        const { type, data } = webhookEvent;
+        console.log(`event type: ${type}`);
+        console.log(`event data: ${data}`);
+        return { statusCode: 200 };
     } catch (e) {
         console.error(`UNCAUGHT ERROR ${e}`);
         return {
