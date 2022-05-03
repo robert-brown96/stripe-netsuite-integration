@@ -4,6 +4,7 @@ const dbHelpers = require("../../utils/db-helpers");
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = async event => {
+    console.log("start" + event);
     try {
         let webhookEvent = event.body;
         // Get the signature sent by Stripe
